@@ -463,3 +463,8 @@ procdump(void)
     cprintf("\n");
   }
 }
+
+struct proc FetchProc(int index)
+{
+  return ptable.proc[index];
+}
