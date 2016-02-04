@@ -464,6 +464,8 @@ procdump(void)
   }
 }
 
+//Pass in index number. Return process that
+//is that index in the ptable
 struct proc FetchProc(int index)
 {
   return ptable.proc[index];
