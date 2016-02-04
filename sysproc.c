@@ -1,15 +1,14 @@
 #include "types.h"
-#include "x86.h"
-#include "defs.h"
+//#include "x86.h"
+//#include "defs.h"
 #include "date.h"
-#include "param.h"
-#include "memlayout.h"
-#include "mmu.h"
-#include "proc.h"
+//#include "param.h"
+//#include "memlayout.h"
+//#include "mmu.h"
+#include "proc.c"
 #include "uproc.h"
 //#include "stat.h"
 //#include "fs.h"
-
 
 int
 sys_getprocs(void)
@@ -24,16 +23,16 @@ sys_getprocs(void)
     return -1; //Attaches top of stack to pid
   if(argptr(0, &up, max*sizeof(struct uproc)) < 0)
     return -1;
-  //max = 0;
+  max = 0;
+  proc *p;
   
-  /*
   for(p = ptable.proc; p < &ptable.proc[NPROC]; p++)
   {
   	//populate array
   	//increment to next element
     max++;  
   }
-  */
+  
   return max;
   //THEN ARGPTR
 }
