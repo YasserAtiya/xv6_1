@@ -4,6 +4,7 @@
 #include "memlayout.h"
 #include "mmu.h"
 #include "x86.h"
+//#include "uproc.h"
 #include "proc.h"
 #include "spinlock.h"
 
@@ -466,7 +467,31 @@ procdump(void)
 
 //Pass in index number. Return process that
 //is that index in the ptable
-struct proc FetchProc(int index)
+int FetchProc(struct uproc* temp, int max)
 {
-  return ptable.proc[index];
+  struct proc *p;
+  int count = 0;
+  acquire(&ptable.lock);
+  
+  
+  for(p = ptable.proc; p < &ptable.proc[NPROC]; p++)
+  {
+    if(p->state == UNUSED)
+      continue;
+    if(count < max){
+      
+      temp[count].pid = p->pid;
+      temp[count].state = p->state;
+      temp[count].sz = p->sz;
+      strncpy(temp[count].name, p->name, sizeof(p->name));
+      
+      //cprintf("ptable: %s\n", p->name);
+      //cprintf("temp: %s\n", temp[count].name);
+    }
+    count++;
+  }
+  release(&ptable.lock);
+  
+  return count;
+  //return ptable.proc;
 }

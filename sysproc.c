@@ -5,8 +5,8 @@
 #include "param.h"
 #include "memlayout.h"
 #include "mmu.h"
+//#include "uproc.h"
 #include "proc.h"
-#include "uproc.h"
 //#include "stat.h"
 //#include "fs.h"
 
@@ -16,25 +16,28 @@ sys_getprocs(void)
 {
   //Returns number of processes
 
-//  struct proc currentproc;
-  char *up;
+  //struct proc *currentproc;
+  struct uproc *tempproc;
+  //This is the ptr to our userspace
+  //char *up;
+
   int max;
-  int count = 0;
+  int numproc;
+  //int count = 0;
 
   //uses argint
-  if(argint(0, &max) < 0)
+  if(argint(0, &max) < 0)//the amount of uproc allocated
     return -1; //Attaches top of stack to pid
-  if(argptr(0, &up, max*sizeof(struct uproc)) < 0)
+  
+  //the address of the uproc in the user space
+  if(argptr(1, (void*)&tempproc, max*sizeof(struct uproc)) < 0)
     return -1;
 
-  for(count = 0; count < max; count++)
-  {
-//    currentproc = FetchProc(count);//populate array element
+  numproc = FetchProc(tempproc, max);//populate array element
+    
 
-    //increment to next element
-    max++;  //increment count
-  }
-  return max;
+  //NPROC is the number of processs
+  return numproc;
   //THEN ARGPTR
 }
 

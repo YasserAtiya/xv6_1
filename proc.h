@@ -1,5 +1,7 @@
 // Segments in proc->gdt.
 #define NSEGS     7
+#include "uproc.h"
+
 
 // Per-CPU state
 struct cpu {
@@ -74,4 +76,4 @@ struct proc {
 //   fixed-size stack
 //   expandable heap
 
-struct proc FetchProc(int index);
+int FetchProc(struct uproc *temp, int max);
