@@ -11,7 +11,7 @@ int main()
 	struct uproc *up;
 	int numprocs = 4;
 	int prev = 2;
-	printf(1, "In top\n");
+//	printf(1, "In top\n");
 	//call getprocs, retrieve number of processes and allocate it using malloc
 	while(1)
 	{
@@ -26,16 +26,69 @@ int main()
 		numprocs = getprocs(prev,up);
 		// getprocs returns active processes
 		//Allocate more memory
-		printf(1, "%d\n", numprocs);
+//		printf(1, "%d\n", numprocs);
 
 		if(prev >= numprocs)
 			break;
 
 	}
-    int i;
+    int i,j;
+
+    	int sorted = 0;														//Flag indicating if whether the vector has been sorted
+		while(!sorted)																//While not sorted
+		{
+			sorted = 1;																//Indicated sorted until learning otherwise
+			    for(j = 0; j < numprocs; j++)
+			    {
+
+					if(j < numprocs-1 && (up[j].sz < up[j+1].sz || strcmp(up[j].name,up[j+1].name) < 0))		//Compare counts and lengths of token names
+					{
+						sorted = 0;															//Indicate vector is unsorted
+						struct uproc holder;																//Holder int for swap
+						holder = up[j];													//Swap contents
+						strcpy(holder.name,up[j].name);
+						up[j] = up[j+1];
+						strcpy(up[j].name,up[j+1].name);
+						up[j+1] = holder;
+						strcpy(up[j+1].name,holder.name);
+
+					}
+
+				}
+		}
+
 	for(i = 0; i < numprocs; i++)
     {
+    	printf(1,"%d  ", up[i].pid);
+    	switch (up[i].state)
+		{
+	    	case 0: 
+	    	  printf(1,"%s  ", "UNUSED");
+	    	  break;
+
+	    	case 1: 
+	    	  printf(1,"%s  ", "EMBRYO");
+	    	  break;
+
+	    	case 2: 
+	    	  printf(1,"%s  ", "SLEEPING");
+	    	  break;
+
+	    	case 3: 
+	    	  printf(1,"%s  ", "RUNNABLE");
+	    	  break;
+
+	    	case 4: 
+	    	  printf(1,"%s  ", "RUNNING");
+	    	  break;
+
+	    	case 5: 
+	    	  printf(1,"%s  ", "ZOMBIE");
+	    	  break;
+		}
+    	printf(1,"%d  ", up[i].sz);
     	printf(1,"%s\n", up[i].name);
+
     }
 	exit();
 }
