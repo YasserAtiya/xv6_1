@@ -10,8 +10,8 @@ int main()
 	//ptr to uproc struct. used to allocate memory 
 	struct uproc *up;
 	int numprocs = 4;
-	int prev = 2;
-//	printf(1, "In top\n");
+	int prev = 2;		//Holds previous number of processes
+
 	//call getprocs, retrieve number of processes and allocate it using malloc
 	while(1)
 	{
@@ -26,26 +26,26 @@ int main()
 		numprocs = getprocs(prev,up);
 		// getprocs returns active processes
 		//Allocate more memory
-//		printf(1, "%d\n", numprocs);
 
 		if(prev >= numprocs)
 			break;
 
 	}
+	
     int i,j;
 
-    	int sorted = 0;														//Flag indicating if whether the vector has been sorted
-		while(!sorted)																//While not sorted
+    	int sorted = 0;			//Flag indicating if whether the vector has been sorted
+		while(!sorted)													        //While not sorted
 		{
-			sorted = 1;																//Indicated sorted until learning otherwise
+			sorted = 1;											        	//Indicated sorted until learning otherwise
 			    for(j = 0; j < numprocs; j++)
 			    {
 
-					if(j < numprocs-1 && (up[j].sz < up[j+1].sz || strcmp(up[j].name,up[j+1].name) < 0))		//Compare counts and lengths of token names
+					if(j < numprocs-1 && (up[j].sz < up[j+1].sz || strcmp(up[j].name,up[j+1].name) < 0))		//Compare sizes and names of processes
 					{
-						sorted = 0;															//Indicate vector is unsorted
-						struct uproc holder;																//Holder int for swap
-						holder = up[j];													//Swap contents
+						sorted = 0;										//Indicate array is unsorted
+						struct uproc holder;	        						        //Holder uproc for swap
+						holder = up[j];										//Swap contents
 						strcpy(holder.name,up[j].name);
 						up[j] = up[j+1];
 						strcpy(up[j].name,up[j+1].name);
@@ -57,6 +57,7 @@ int main()
 				}
 		}
 
+//Print results
 	for(i = 0; i < numprocs; i++)
     {
     	printf(1,"%d  ", up[i].pid);
