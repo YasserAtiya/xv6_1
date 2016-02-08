@@ -465,15 +465,17 @@ procdump(void)
   }
 }
 
-//Pass in index number. Return process that
-//is that index in the ptable
+//Pass in ptr to uproc array and memory allocated, populates array, returns actual number of procs
 int FetchProc(struct uproc* temp, int max)
 {
+  //Holder proc pointer
   struct proc *p;
+  //Number of processes
   int count = 0;
+  //Lock ptable for synchronized use
   acquire(&ptable.lock);
   
-  
+  //Iterate through ptable, populate array, count procs
   for(p = ptable.proc; p < &ptable.proc[NPROC]; p++)
   {
     if(p->state == UNUSED)
@@ -493,5 +495,4 @@ int FetchProc(struct uproc* temp, int max)
   release(&ptable.lock);
   
   return count;
-  //return ptable.proc;
 }
