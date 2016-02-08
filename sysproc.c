@@ -12,33 +12,27 @@
 
 
 int
-sys_getprocs(void)
+sys_getprocs(void)    //Returns number of processes
 {
-  //Returns number of processes
-
-  //struct proc *currentproc;
-  struct uproc *tempproc;
   //This is the ptr to our userspace
-  //char *up;
+  struct uproc *tempproc;
 
   int max;
   int numproc;
-  //int count = 0;
 
   //uses argint
-  if(argint(0, &max) < 0)//the amount of uproc allocated
+  if(argint(0, &max) < 0)//the amount of uprocs allocated
     return -1; //Attaches top of stack to pid
   
   //the address of the uproc in the user space
   if(argptr(1, (void*)&tempproc, max*sizeof(struct uproc)) < 0)
     return -1;
 
-  numproc = FetchProc(tempproc, max);//populate array element
+  numproc = FetchProc(tempproc, max);//populate array element, fetch number of processes
     
 
-  //NPROC is the number of processs
+  //return number of processes
   return numproc;
-  //THEN ARGPTR
 }
 
 int
